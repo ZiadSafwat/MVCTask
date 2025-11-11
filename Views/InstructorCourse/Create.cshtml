@@ -1,0 +1,20 @@
+@model mvcLab.Models.InstructorCourse
+
+@{
+    ViewData["Title"] = "Assign Instructor";
+}
+
+<h2>Assign Instructor to Course</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label>Instructor</label>
+        <select asp-for="InstructorId" asp-items="@(new SelectList(ViewBag.Instructors, "Value", "Text"))" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label>Course</label>
+        <select asp-for="CourseId" asp-items="@(new SelectList(ViewBag.Courses, "Value", "Text"))" class="form-control"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Assign</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>

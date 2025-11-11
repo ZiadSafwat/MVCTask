@@ -1,0 +1,35 @@
+@model IEnumerable<mvcLab.Models.StudCourse>
+
+@{
+    ViewData["Title"] = "Student Enrollments";
+}
+
+<h2>Enrollments</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add Enrollment</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Grade</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach(var e in Model)
+    {
+        <tr>
+            <td>@e.Student?.Name</td>
+            <td>@e.Course?.Name</td>
+            <td>@e.Grade</td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@e.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

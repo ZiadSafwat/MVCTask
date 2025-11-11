@@ -1,0 +1,37 @@
+@model IEnumerable<mvcLab.Models.Department>
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<h2>Departments</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Department</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Manager</th>
+            <th>Location</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach(var d in Model)
+    {
+        <tr>
+            <td>@d.Name</td>
+            <td>@d.Manager</td>
+            <td>@d.Location</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@d.Id">Details</a> |
+                <a asp-action="Edit" asp-route-id="@d.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@d.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

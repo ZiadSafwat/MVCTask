@@ -1,0 +1,54 @@
+@{
+    ViewData["Title"] = "Enroll in Course";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">@ViewData["Title"]</h4>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.AvailableCourses != null && ViewBag.AvailableCourses.Count > 0)
+                    {
+                        <div class="row">
+                            @foreach (var course in ViewBag.AvailableCourses)
+                            {
+                                <div class="col-md-6 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@course.Name</h5>
+                                            <p class="card-text">@course.Description</p>
+                                            <form asp-action="EnrollCourse" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="courseId" value="@course.Id" />
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fas fa-plus-circle"></i> Enroll
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center">
+                            <i class="fas fa-book-open fa-4x text-muted mb-3"></i>
+                            <h5>No Available Courses</h5>
+                            <p class="text-muted">You are currently enrolled in all available courses.</p>
+                        </div>
+                    }
+
+                    <div class="text-center mt-4">
+                        <a asp-action="MyCourses" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to My Courses
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

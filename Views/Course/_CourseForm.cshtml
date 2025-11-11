@@ -1,0 +1,38 @@
+@model Course
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="form-label">Name *</label>
+            <input asp-for="Name" class="form-control" data-val="true" data-val-required="Course name is required" data-val-length-min="3" data-val-length-max="50" data-val-length="Course name must be between 3 and 50 characters" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="3" data-val="true" data-val-maxlength-max="500" data-val-maxlength="Description cannot exceed 500 characters"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="Degree" class="form-label">Degree *</label>
+            <input asp-for="Degree" class="form-control" data-val="true" data-val-required="Total degree is required" data-val-range="Total degree must be between 0 and 100" data-val-range-min="0" data-val-range-max="100" />
+            <span asp-validation-for="Degree" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label asp-for="MinDegree" class="form-label">Minimum Degree *</label>
+            <input asp-for="MinDegree" class="form-control" data-val="true" data-val-required="Minimum degree is required" data-val-range="Minimum degree must be between 50 and 100" data-val-range-min="50" data-val-range-max="100" />
+            <span asp-validation-for="MinDegree" class="text-danger"></span>
+        </div>
+    </div>
+</div>

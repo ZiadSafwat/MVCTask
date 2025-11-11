@@ -1,0 +1,116 @@
+@model IEnumerable<mvcLab.Models.StudCourse>
+
+@{
+    ViewData["Title"] = "My Courses";
+}
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <div class="col text-end">
+            <a asp-action="EnrollCourse" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Enroll in New Course
+            </a>
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Grade</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sc in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="ms-2">
+                                            <h6 class="mb-0">@sc.Course?.Name</h6>
+                                            <small class="text-muted">@sc.Course?.Description</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (sc.Grade > 0)
+                                    {
+                                        <span>@sc.Grade.ToString("F0")%</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Not graded</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (sc.Grade > 0)
+                                    {
+                                        if (sc.Grade >= 50)
+                                        {
+                                            <span class="badge bg-success">Passed</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Failed</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">In Progress</span>
+                                    }
+                                </td>
+                                <td>
+                                    @* Allow dropping only if grade is not set (== 0) *@
+                                    @if (sc.Grade == 0)
+                                    {
+                                        <form asp-action="DropCourse" method="post" style="display: inline;">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="courseId" value="@sc.CourseId" />
+                                            <button type="submit" class="btn btn-danger btn-sm" 
+                                                    onclick="return confirm('Are you sure you want to drop this course?')">
+                                                <i class="fas fa-trash"></i> Drop
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            $('.alert').alert('close');
+        }, 5000);
+    </script>
+}

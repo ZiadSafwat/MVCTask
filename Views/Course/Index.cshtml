@@ -1,0 +1,55 @@
+@model List<Course>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<div class="container mt-5">
+    <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h1 class="text-primary">Courses</h1>
+            <a asp-action="Create" class="btn btn-success">Add Course</a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Degree</th>
+                    <th>Min Degree</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                @if (Model.Any())
+                {
+                    foreach (var course in Model)
+                    {
+                        <tr>
+                            <td>@course.Num</td>
+                            <td>@course.Name</td>
+                            <td>@course.Description</td>
+                            <td>@course.Degree</td>
+                            <td>@course.MinDegree</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@course.Num" class="btn btn-warning btn-sm">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-danger py-4">No courses available.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

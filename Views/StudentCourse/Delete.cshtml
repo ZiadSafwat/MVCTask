@@ -1,0 +1,15 @@
+@model mvcLab.Models.StudCourse
+
+@{
+    ViewData["Title"] = "Delete Enrollment";
+}
+
+<h2>Delete Enrollment</h2>
+
+<h3>Remove enrollment of @Model.Student?.Name from @Model.Course?.Name?</h3>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

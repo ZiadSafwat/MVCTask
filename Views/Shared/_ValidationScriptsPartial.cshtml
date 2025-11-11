@@ -1,0 +1,46 @@
+﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" 
+        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>window.jQuery.validator || document.write('<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"><\/script>')</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js" 
+        integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>window.jQuery.validator.unobtrusive || document.write('<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"><\/script>')</script>
+
+<script>
+(function(){
+  function initCustomValidator(){
+    if (typeof jQuery === 'undefined' || typeof jQuery.validator === 'undefined') return;
+    $.validator.addMethod("minDegreeCheck", function (value, element) {
+        var degree = parseFloat($("#Degree").val());
+        var minDegree = parseFloat(value);
+        return minDegree <= degree;
+    }, "Minimum degree cannot be greater than total degree");
+
+    $(function () {
+        var form = $("form");
+        if (form.length > 0 && form.data("validator")) {
+            form.data("validator").settings.rules["MinDegree"] = {
+                minDegreeCheck: true
+            };
+        }
+        $("#Degree").on("change", function () {
+            $("#MinDegree").valid();
+        });
+    });
+  }
+
+  function ensureValidationLoaded(){
+    if (typeof jQuery === 'undefined') {
+      loadScript(jqueryPath, function(){ loadScript(validatePath, function(){ loadScript(unobPath, initCustomValidator); }); });
+    } else if (typeof jQuery.validator === 'undefined') {
+      loadScript(validatePath, function(){ loadScript(unobPath, initCustomValidator); });
+    } else {
+      initCustomValidator();
+    }
+  }
+
+  ensureValidationLoaded();
+})(); 
+</script>
