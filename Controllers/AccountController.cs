@@ -4,6 +4,7 @@ using mvcLab.Models;
 using mvcLab.ViewModels;
 using mvcLab.Services;
 using System.Security.Claims;
+using mvcLab.Data; // Added for UserRoles
 
 namespace mvcLab.Controllers
 {
@@ -57,6 +58,11 @@ namespace mvcLab.Controllers
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             if (result.Succeeded)
             {
+                 var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+                 if (user != null && await _userManager.IsInRoleAsync(user, UserRoles.Admin))
+                 {
+                     return RedirectToAction("Index", "Admin");
+                 }
                 return LocalRedirect(returnUrl);
             }
 
@@ -104,6 +110,11 @@ namespace mvcLab.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in: {Email}", model.Email);
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user != null && await _userManager.IsInRoleAsync(user, UserRoles.Admin))
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 else

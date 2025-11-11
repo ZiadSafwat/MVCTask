@@ -17,7 +17,7 @@ namespace mvcLab
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Configure Serilog
+             
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -28,7 +28,7 @@ namespace mvcLab
 
             builder.Host.UseSerilog();
 
-            // Add services to the container.
+          
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -117,6 +117,8 @@ namespace mvcLab
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                // Delete the database if it exists
+                await db.Database.EnsureDeletedAsync();
                 // Apply any pending migrations (creates Identity tables like AspNetRoles)
                 await db.Database.MigrateAsync();
 
